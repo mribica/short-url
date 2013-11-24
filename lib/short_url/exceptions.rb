@@ -1,0 +1,1 @@
+class ObjectHasNoId < StandardError; end
