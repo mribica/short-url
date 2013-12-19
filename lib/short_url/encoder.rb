@@ -1,17 +1,18 @@
-DEFAULT_ALPHABET = ENV['alphabet'] || 'mn6j2c4rv8bpygw95z7hsdaetxuk3fq'
-MIN_LENGTH = ENV['min_length'] || 5
+DEFAULT_ALPHABET = 'mn6j2c4rv8bpygw95z7hsdaetxuk3fq'
+MIN_LENGTH = 5
 DEFAULT_BLOCK_SIZE = 24
 
 class Encoder
-  def initialize(alphabet = DEFAULT_ALPHABET, block_size = DEFAULT_BLOCK_SIZE)
+  def initialize(alphabet = DEFAULT_ALPHABET, min_length = MIN_LENGTH, block_size = DEFAULT_BLOCK_SIZE)
     @alphabet = alphabet
+    @min_length = min_length
     @block_size = block_size
     @mask = (1 << block_size) - 1
     @mapping = (0..block_size - 1).to_a.reverse
   end
 
-  def encode_url(n, min_length = MIN_LENGTH)
-    enbase(encode(n), min_length)
+  def encode_url(n)
+    enbase(encode(n))
   end
 
   def decode_url(n)
@@ -46,11 +47,11 @@ class Encoder
     result
   end
 
-  def enbase(x, min_length = MIN_LENGTH)
+  def enbase(x)
     result = _enbase(x)
-    diff = min_length - result.length
+    diff = @min_length - result.length
     unless diff < 0
-      padding = @alphabet[0] * (min_length - result.length)
+      padding = @alphabet[0] * (@min_length - result.length)
     else
       padding = ''
     end
