@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'short_url'
-  s.version       = '0.2.0'
+  s.version       = '1.0.0'
   s.date          = '2012-11-22'
   s.summary       = "short url generator"
   s.description   = "short-url plugin is using bit-shuffling algorithm to generate collision free unpredictable short urls"
