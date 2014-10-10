@@ -18,7 +18,9 @@ module ShortUrl
   end
 
   def short_url
+    raise ObjectHasNoId unless defined? id
     raise ObjectHasNoId unless id
+
     ShortUrl::encoder.encode_url(id)
   end
 
@@ -39,6 +41,18 @@ module ShortUrl
       @alphabet = 'm6nj2c4rv8bpygw95z7hsdaetxuk3fq'
       @min_length = 5
       @block_size = 24
+    end
+  end
+end
+
+if defined?(Rails)
+  module ShortUrl
+    class Railtie < Rails::Railtie
+      initializer "active record" do
+        ActiveSupport.on_load :active_record do
+          require 'short_url'
+        end
+      end
     end
   end
 end
